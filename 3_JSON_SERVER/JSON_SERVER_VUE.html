@@ -1,0 +1,40 @@
+<!-- https://desarrolloweb.com/articulos/crear-api-rest-json-server.html -->
+<!-- https://code.tutsplus.com/es/tutorials/fake-rest-api-up-and-running-using-json-server--cms-27871-->
+
+<div id="app">
+<div class="container">
+    <h1>Listado de informacion</h1>
+    <ul class="list-group">
+        <ficha v-for="dato in listado_datos" :historia="dato"> </ficha>
+    </ul>
+<pre>{{ $data }}</pre>
+</div>
+</div>
+
+<template id="template-ficha">
+<li class="list-group-item">
+    {{ dato.idAutor }} dice "{{ dato.titulo }}"
+    <span>{{dato.content}}</span>
+</li>
+</template>
+
+<script src="https://unpkg.com/vue@2.3.2/dist/vue.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+
+Vue.component('ficha', {
+    template: "#template-ficha",    
+    props: ['historia'],
+});
+
+var objVue = new Vue({
+el: '#app',
+data: {
+    listado_datos: []
+    },
+mounted: function(){
+    $.get('http://localhost:3000/informacion', function(data) {objVue.listado_datos = data; })
+}
+    
+})
+</script>
